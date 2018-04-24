@@ -1,7 +1,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-
+    locale: 'en'
+###################################################################################################################
+# ovaj dio u principu ne diraš, on je inicijalno tako postavljen
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -10,18 +12,63 @@ services:
         public: false       # Allows optimizing the container by removing unused services; this also means
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
-
+###################################################################################################################
+# ovdje dohvaćaš resurse iz src/nešto foldera
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
 
+    # ovo je osnovna postava koja sve dohvaća iz src foldera i ovo nećemo koristiti
+#    App\:
+#        resource: '../src/*'
+#        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+
+    #ovako će ti izgledati svi loaderi resursa:
+    #App je root svega
+    #API je root resursa
+    #sljedeće je logički dio appa koji želiš dodati, npr.
+    #kreiramo novu logičku cjelinu Pet u kojoj će biti sve vezano za Pet-a
+    #Action
+    #Entity
+    #Handler, što god... nazivi su proizvoljni, ali ove mi koristimo pa možeš njih koristiti ako želiš
+    #exclude neće nigdje prikazati sadržaje foldera koje u njemu navedeš, pitanja? nema,sada prebacis u folder PET sve contorllere? da, prvo napraviš folder Action i u njega sve vezano za Pet-a
+    #hoćeš ti?
+    #unutar Pet foldera folder Action?da
+    #mislim da je toto,ako si tako mislio, za Pet-a sve akcije, da tu ti sad super dobro dođe ak si sve ispravno nazvao jer sve sa završetkom Pet ubacir u taj folder
+    App\API\Pet\:
+        resource: '../src/API/Pet/*'
+        exclude: '../src/API/Pet/{Entity,Migrations,Tests,Kernel.php}'
+
+    App\API\Store\:
+        resource: '../src/API/Store/*'
+        exclude: '../src/API/Store/{Entity,Migrations,Tests,Kernel.php}'
+
+    App\API\User\:
+        resource: '../src/API/User/*'
+        exclude: '../src/API/User/{Entity,Migrations,Tests,Kernel.php}'
+
+###################################################################################################################
+
+# ovdje dodaješ controlle odnosno rute na koje će pojedini dio API-a ciljati
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/API'
+#    App\Controller\:
+#        resource: '../src/API'
+#        tags: ['controller.service_arguments']
+
+    #sljedeće moramo reći gdje se te Akcije točno nalaze, to radiš na ovaj način:
+    #to je sad definicija gdje se nalaze svi controllori odnosno akcije za pet, sad tako napraviš i za sve druge ok znaci Store Action i user action
+    #nisam, pogledaš koje sve nazive imaš
+    #krivo sam nazvao ImageUploadPet, to cu prepraviti, i orderPet, ok ajd prvo to sredi pa ćemo dalje
+    App\API\Pet\Action\:
+        resource: '../src/API/Pet/Action'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\API\Store\Action\:
+        resource: '../src/API/Store/Action'
+        tags: ['controller.service_arguments']
+
+    App\API\User\Action\:
+        resource: '../src/API/User/Action'
+        tags: ['controller.service_arguments']
+
+###################################################################################################################

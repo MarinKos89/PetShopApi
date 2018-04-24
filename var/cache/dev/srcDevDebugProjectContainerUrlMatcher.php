@@ -31,7 +31,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         if (0 === strpos($pathinfo, '/pet')) {
             // petID
             if (preg_match('#^/pet/(?P<petID>[^/]++)$#sD', $pathinfo, $matches)) {
-                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'petID')), array (  '_controller' => 'App\\API\\ByIDFindPet',));
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'petID')), array (  '_controller' => 'App\\API\\Pet\\Action\\ByIDFindPet',));
                 if (!in_array($canonicalMethod, array('GET', 'GET'))) {
                     $allow = array_merge($allow, array('GET', 'GET'));
                     goto not_petID;
@@ -43,7 +43,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
             // pet_findByStatus
             if ('/pet/findByStatus' === $pathinfo) {
-                $ret = array (  '_controller' => 'App\\API\\ByStatusFindPet',  '_route' => 'pet_findByStatus',);
+                $ret = array (  '_controller' => 'App\\API\\Pet\\Action\\ByStatusFindPet',  '_route' => 'pet_findByStatus',);
                 if (!in_array($canonicalMethod, array('GET', 'GET'))) {
                     $allow = array_merge($allow, array('GET', 'GET'));
                     goto not_pet_findByStatus;
@@ -53,26 +53,216 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
             not_pet_findByStatus:
 
+            // delete_pet
+            if ('/pet/{petID' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\Pet\\Action\\DeletePet',  '_route' => 'delete_pet',);
+                if (!in_array($requestMethod, array('DELETE', 'DELETE'))) {
+                    $allow = array_merge($allow, array('DELETE', 'DELETE'));
+                    goto not_delete_pet;
+                }
+
+                return $ret;
+            }
+            not_delete_pet:
+
+            // image_upload_pet
+            if (preg_match('#^/pet/(?P<petID>[^/]++)/uploadImage$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'image_upload_pet')), array (  '_controller' => 'App\\API\\Pet\\Action\\ImageUploadPet',));
+                if (!in_array($requestMethod, array('POST', 'POST'))) {
+                    $allow = array_merge($allow, array('POST', 'POST'));
+                    goto not_image_upload_pet;
+                }
+
+                return $ret;
+            }
+            not_image_upload_pet:
+
+            // in_store_update_pet
+            if (preg_match('#^/pet/(?P<petID>[^/]++)$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'in_store_update_pet')), array (  '_controller' => 'App\\API\\Pet\\Action\\InStoreUpdatePet',));
+                if (!in_array($requestMethod, array('POST', 'POST'))) {
+                    $allow = array_merge($allow, array('POST', 'POST'));
+                    goto not_in_store_update_pet;
+                }
+
+                return $ret;
+            }
+            not_in_store_update_pet:
+
+            // to_store_add_pet
+            if ('/pet' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\Pet\\Action\\ToStoreAddPet',  '_route' => 'to_store_add_pet',);
+                if (!in_array($requestMethod, array('POST', 'POST'))) {
+                    $allow = array_merge($allow, array('POST', 'POST'));
+                    goto not_to_store_add_pet;
+                }
+
+                return $ret;
+            }
+            not_to_store_add_pet:
+
+            // update_pet
+            if ('/pet' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\Pet\\Action\\UpdatePet',  '_route' => 'update_pet',);
+                if (!in_array($requestMethod, array('PUT', 'PUT'))) {
+                    $allow = array_merge($allow, array('PUT', 'PUT'));
+                    goto not_update_pet;
+                }
+
+                return $ret;
+            }
+            not_update_pet:
+
         }
 
-        // app_home_homepage
-        if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'App\\API\\HomeController::homepage',  '_route' => 'app_home_homepage',);
-            if ('/' === substr($pathinfo, -1)) {
-                // no-op
-            } elseif ('GET' !== $canonicalMethod) {
-                goto not_app_home_homepage;
-            } else {
-                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'app_home_homepage'));
+        elseif (0 === strpos($pathinfo, '/store/order')) {
+            // by_id_delete_purchase
+            if (preg_match('#^/store/order/(?P<orderID>[^/]++)$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'by_id_delete_purchase')), array (  '_controller' => 'App\\API\\Store\\Action\\ByIDDeletePurchaseOrderInStore',));
+                if (!in_array($requestMethod, array('DELETE', 'DELETE'))) {
+                    $allow = array_merge($allow, array('DELETE', 'DELETE'));
+                    goto not_by_id_delete_purchase;
+                }
+
+                return $ret;
+            }
+            not_by_id_delete_purchase:
+
+            // by_id_finds_purchase_order
+            if (preg_match('#^/store/order/(?P<orderID>[^/]++)$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'by_id_finds_purchase_order')), array (  '_controller' => 'App\\API\\Store\\Action\\ByIDFindsPurchaseOrderinStore',));
+                if (!in_array($canonicalMethod, array('GET', 'GET'))) {
+                    $allow = array_merge($allow, array('GET', 'GET'));
+                    goto not_by_id_finds_purchase_order;
+                }
+
+                return $ret;
+            }
+            not_by_id_finds_purchase_order:
+
+            // order_a_pet_from_store
+            if ('/store/order' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\Store\\Action\\OrderAPetFromStore',  '_route' => 'order_a_pet_from_store',);
+                if (!in_array($requestMethod, array('POST', 'POST'))) {
+                    $allow = array_merge($allow, array('POST', 'POST'));
+                    goto not_order_a_pet_from_store;
+                }
+
+                return $ret;
+            }
+            not_order_a_pet_from_store:
+
+        }
+
+        // status_inventory
+        if ('/store/inventory' === $pathinfo) {
+            $ret = array (  '_controller' => 'App\\API\\Store\\Action\\ByStatusReturnInventoryStore',  '_route' => 'status_inventory',);
+            if (!in_array($canonicalMethod, array('GET', 'GET'))) {
+                $allow = array_merge($allow, array('GET', 'GET'));
+                goto not_status_inventory;
             }
 
             return $ret;
         }
-        not_app_home_homepage:
+        not_status_inventory:
 
-        // app_home_show
-        if (0 === strpos($pathinfo, '/news') && preg_match('#^/news/(?P<slug>[^/]++)$#sD', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'app_home_show')), array (  '_controller' => 'App\\API\\HomeController::show',));
+        if (0 === strpos($pathinfo, '/user')) {
+            // get_user
+            if (preg_match('#^/user/(?P<username>[^/]++)$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'get_user')), array (  '_controller' => 'App\\API\\User\\Action\\ByUserNameGetUser',));
+                if (!in_array($canonicalMethod, array('GET', 'GET'))) {
+                    $allow = array_merge($allow, array('GET', 'GET'));
+                    goto not_get_user;
+                }
+
+                return $ret;
+            }
+            not_get_user:
+
+            // create_user
+            if ('/user' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\User\\Action\\CreateUser',  '_route' => 'create_user',);
+                if (!in_array($requestMethod, array('POST', 'POST'))) {
+                    $allow = array_merge($allow, array('POST', 'POST'));
+                    goto not_create_user;
+                }
+
+                return $ret;
+            }
+            not_create_user:
+
+            // delete_user
+            if (preg_match('#^/user/(?P<username>[^/]++)$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'delete_user')), array (  '_controller' => 'App\\API\\User\\Action\\DeleteUser',));
+                if (!in_array($requestMethod, array('DELETE', 'DELETE'))) {
+                    $allow = array_merge($allow, array('DELETE', 'DELETE'));
+                    goto not_delete_user;
+                }
+
+                return $ret;
+            }
+            not_delete_user:
+
+            // logout_user
+            if ('/user/logout' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\User\\Action\\LogOutUser',  '_route' => 'logout_user',);
+                if (!in_array($canonicalMethod, array('GET', 'GET'))) {
+                    $allow = array_merge($allow, array('GET', 'GET'));
+                    goto not_logout_user;
+                }
+
+                return $ret;
+            }
+            not_logout_user:
+
+            // login_user
+            if ('/user/login' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\User\\Action\\LoginUser',  '_route' => 'login_user',);
+                if (!in_array($canonicalMethod, array('GET', 'GET'))) {
+                    $allow = array_merge($allow, array('GET', 'GET'));
+                    goto not_login_user;
+                }
+
+                return $ret;
+            }
+            not_login_user:
+
+            // update_user
+            if ('/user/{username' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\User\\Action\\UpdateUser',  '_route' => 'update_user',);
+                if (!in_array($requestMethod, array('PUT', 'PUT'))) {
+                    $allow = array_merge($allow, array('PUT', 'PUT'));
+                    goto not_update_user;
+                }
+
+                return $ret;
+            }
+            not_update_user:
+
+            // with_array_create_user
+            if ('/user/createWithArray' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\User\\Action\\WithArrayCreateUser',  '_route' => 'with_array_create_user',);
+                if (!in_array($requestMethod, array('POST', 'POST'))) {
+                    $allow = array_merge($allow, array('POST', 'POST'));
+                    goto not_with_array_create_user;
+                }
+
+                return $ret;
+            }
+            not_with_array_create_user:
+
+            // with_list_create_user
+            if ('/user/createWithList' === $pathinfo) {
+                $ret = array (  '_controller' => 'App\\API\\User\\Action\\WithListCreateUser',  '_route' => 'with_list_create_user',);
+                if (!in_array($requestMethod, array('POST', 'POST'))) {
+                    $allow = array_merge($allow, array('POST', 'POST'));
+                    goto not_with_list_create_user;
+                }
+
+                return $ret;
+            }
+            not_with_list_create_user:
+
         }
 
         // _twig_error_test
