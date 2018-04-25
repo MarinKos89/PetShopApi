@@ -1,118 +1,108 @@
 <?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Created by PhpStorm.
- * User: mkos8
- * Date: 18.4.2018.
- * Time: 22:10
+ * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
  */
-
-namespace App\Controller\Entity;
-
-
 class Order
 {
     /**
-     * @var int64 $id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
-    /**
-     * @var int64 $petId
-     */
-    protected $petId;
-    /**
-     * @var string $shipDate
-     */
-    protected $shipDate;
-    /**
-     * @var string $status
-     */
-    protected $status;
-    /**
-     * @var bool $complete
-     */
-    protected $complete=false;
+    private $id;
 
     /**
-     * @return int64
+     * @ORM\Column(type="integer")
      */
-    public function getId(): int64
+    private $petID;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantity;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $shipDate;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="boolean" )
+     */
+    private $complete=false;
+
+    public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @param int64 $id
-     */
-    public function setId(int64 $id): void
+    public function getPetID(): ?int
     {
-        $this->id = $id;
+        return $this->petID;
     }
 
-    /**
-     * @return int64
-     */
-    public function getPetId(): int64
+    public function setPetID(int $petID): self
     {
-        return $this->petId;
+        $this->petID = $petID;
+
+        return $this;
     }
 
-    /**
-     * @param int64 $petId
-     */
-    public function setPetId(int64 $petId): void
+    public function getQuantity(): ?int
     {
-        $this->petId = $petId;
+        return $this->quantity;
     }
 
-    /**
-     * @return string
-     */
-    public function getShipDate(): string
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getShipDate(): ?\DateTimeInterface
     {
         return $this->shipDate;
     }
 
-    /**
-     * @param string $shipDate
-     */
-    public function setShipDate(string $shipDate): void
+    public function setShipDate(\DateTimeInterface $shipDate): self
     {
         $this->shipDate = $shipDate;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    /**
-     * @param string $status
-     */
-    public function setStatus(string $status): void
+    public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isComplete(): bool
+    public function getComplete(): ?bool
     {
         return $this->complete;
     }
 
-    /**
-     * @param bool $complete
-     */
-    public function setComplete(bool $complete): void
+    public function setComplete(bool $complete): self
     {
         $this->complete = $complete;
+
+        return $this;
     }
-
-
-
-
 }

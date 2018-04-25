@@ -27,3 +27,17 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+            pet:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/API/Pet/Entity'
+                prefix: 'App\API\Pet\Entity'
+                alias: Pet
+
+            user:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/API/User/Entity'
+                prefix: 'App\API\User\Entity'
+                alias: User

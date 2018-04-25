@@ -1,39 +1,40 @@
 <?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Created by PhpStorm.
- * User: mkos8
- * Date: 18.4.2018.
- * Time: 22:21
+ * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  */
-
-namespace App\Controller\Entity;
-
-
 class Tag
 {
-
     /**
-     * @var int64 $id
+     * @var int $id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string $name
+     * @ORM\Column(type="string", length=255)
      */
-    protected $name;
+    private $name;
 
     /**
-     * @return int64
+     * @return int
      */
-    public function getId(): int64
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param int64 $id
+     * @param int $id
      */
-    public function setId(int64 $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -53,9 +54,4 @@ class Tag
     {
         $this->name = $name;
     }
-
-
-
-
-
 }
