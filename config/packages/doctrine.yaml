@@ -41,3 +41,10 @@ doctrine:
                 dir: '%kernel.project_dir%/src/API/User/Entity'
                 prefix: 'App\API\User\Entity'
                 alias: User
+
+#            user:
+#                is_bundle: false
+#                type: annotation
+#                dir: '%kernel.project_dir%/src/API/User/Entity'
+#                prefix: 'App\API\User\Entity'
+#                alias: User

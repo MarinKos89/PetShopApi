@@ -1,15 +1,51 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mkos8
- * Date: 23.4.2018.
- * Time: 19:42
- */
+
 
 namespace App\API\Pet\Handler;
 
+use App\API\Pet\Service\PetService;
+use App\API\Pet\Command\ToStoreAddPetCommand;
 
+
+
+/**
+ * Class ToStoreAddPetHandler
+ * @package App\API\Pet\Handler
+ */
 class ToStoreAddPetHandler
 {
+    /**
+     * @var PetService $service
+     */
+    private $service;
+
+    /**
+     * ToStoreAddPetHandler constructor.
+     * @param PetService $service
+     */
+    public function __construct(PetService $service)
+    {
+        $this->service = $service;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function handle(){
+        return $this->service->selectPets();
+    }
+
+
+    /**
+     * @param ToStoreAddPetCommand $petData
+     * @return int
+     */
+    public function handlePet(ToStoreAddPetCommand $petData){
+        return $this->service
+            ->addPetToStore($petData->toArray());
+    }
+
+
 
 }

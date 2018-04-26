@@ -44,9 +44,7 @@ class CreateUser
         if ($success)
         {
             return new Response('successful operation, user id added: ' .$success,
-                200);//za uspjeh, znam da ti je nagdje to naveo
-            //https://api.symfony.com/3.4/Symfony/Component/HttpFoundation/Response.html
-            //ovdje možeš sve statuse pogledat ali u principu koristiš njih nekoliko
+                200);
         }
 
         return new Response('',400);

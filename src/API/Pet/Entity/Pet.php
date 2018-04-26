@@ -2,10 +2,9 @@
 
 namespace App\API\Pet\Entity;
 
-use App\Entity\Category;
-use App\Entity\StatusPet;
-use App\Entity\Tag;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\OneToOne;
 
 /**
  * @ORM\Entity
@@ -24,6 +23,8 @@ class Pet
     /**
      * @var int $category
      * @ORM\Column(type="integer")
+     * @OneToOne(targetEntity="category_pet")
+     * @JoinColumn(name="category_pet_id", referencedColumnName="id")
      */
     private $category;
 
@@ -40,14 +41,16 @@ class Pet
     private $photoUrls;
 
     /**
-     * @var Tag $tags
+     * @var int $tags
      * @ORM\Column(type="integer")
      */
     private $tags;
 
     /**
-     * @var StatusPet $status
+     * @var int $status
      * @ORM\Column(type="integer")
+     * @OneToOne(targetEntity="status_pet")
+     * @JoinColumn(name="status_pet_id", referencedColumnName="id")
      */
     private $status;
 
@@ -59,13 +62,13 @@ class Pet
         return $this->id;
     }
 
-//    /**
-//     * @return string
-//     */
-//    public function getCategory(): string
-//    {
-//        return $this->category->getName();
-//    }
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return int
@@ -73,6 +76,14 @@ class Pet
     public function getCategory(): int
     {
         return $this->category;
+    }
+
+    /**
+     * @param int $category
+     */
+    public function setCategory(int $category): void
+    {
+        $this->category = $category;
     }
 
     /**
@@ -108,18 +119,34 @@ class Pet
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getTags(): string
+    public function getTags(): int
     {
         return $this->tags;
     }
 
     /**
-     * @return string
+     * @param int $tags
      */
-    public function getStatus(): string
+    public function setTags(int $tags): void
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
     {
         return $this->status;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 }

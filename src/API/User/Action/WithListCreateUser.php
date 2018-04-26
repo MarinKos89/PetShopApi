@@ -8,8 +8,12 @@
 
 namespace App\API\User\Action;
 
+use App\API\User\Command\CreateUserCommand;
+use App\API\User\Handler\UserHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class WithListCreateUser
@@ -19,10 +23,38 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class WithListCreateUser
 {
     /**
-     * @return JsonResponse
+     * @var UserHandler $handler
      */
-    public function __invoke():JsonResponse
+    private $handler;
+
+    /**
+     * WithListCreateUser constructor.
+     * @param UserHandler $handler
+     */
+    public function __construct(UserHandler $handler)
     {
-       return new JsonResponse("Create list of users with given input");
+        $this->handler = $handler;
+    }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function __invoke(Request $request): Response
+    {
+
+        $command = CreateUserCommand::deserialize(
+            (array) json_decode($request->getContent(false))
+        );
+
+        $success = $this->handler->handleCreateUser($command);
+        if ($success)
+        {
+            return new Response('successful operation, user id added: ' .$success,
+                200);
+        }
+
+        return new Response('',400);
     }
 }

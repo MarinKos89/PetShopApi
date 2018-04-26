@@ -8,8 +8,12 @@
 
 namespace App\API\Pet\Action;
 
+use App\API\Pet\Command\ToStoreAddPetCommand;
+use App\API\Pet\Handler\ToStoreAddPetHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ToStoreAddPet
@@ -20,11 +24,38 @@ class ToStoreAddPet
 {
 
     /**
-     * @return JsonResponse
+     * @var ToStoreAddPetHandler $handler
      */
-    public function __invoke():JsonResponse
+    private $handler;
+
+    /**
+     * ToStoreAddPet constructor.
+     * @param ToStoreAddPetHandler $handler
+     */
+    public function __construct(ToStoreAddPetHandler $handler)
     {
-        return new JsonResponse("add pet to store");
+        $this->handler = $handler;
+    }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function __invoke(Request $request):Response
+    {
+        $command=ToStoreAddPetCommand::deserialize(
+            (array) json_decode($request->getContent(false))
+        );
+
+        $success=$this->handler->handlePet($command);
+
+        if ($success)
+        {
+            return new Response('bravo, pesek je dodan ' .$success,200);
+        }
+
+        return new Response('Invalid input ', 400);
     }
 
 }

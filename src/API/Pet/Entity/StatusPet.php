@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Entity;
+namespace App\API\Pet\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\StatusPetRepository")
+ * @ORM\Entity
+ * @ORM\Table(name="status_pet")
  */
 class StatusPet
 {

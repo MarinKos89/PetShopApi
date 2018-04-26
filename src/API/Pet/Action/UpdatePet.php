@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mkos8
- * Date: 19.4.2018.
- * Time: 17:06
- */
 
 namespace App\API\Pet\Action;
 
