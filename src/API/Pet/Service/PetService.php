@@ -5,6 +5,8 @@ namespace App\API\Pet\Service;
 use App\API\Pet\Entity\Pet;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class PetService
@@ -22,10 +24,11 @@ class PetService
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        SerializerInterface     $serializer
-    ) {
-        $this->entityManager    = $entityManager;
-        $this->serializer       = $serializer;
+        SerializerInterface $serializer
+    )
+    {
+        $this->entityManager = $entityManager;
+        $this->serializer = $serializer;
     }
 
     public function byIDFindPet(int $petID)
@@ -46,8 +49,8 @@ class PetService
     {
         return $this->serializer->serialize(
             $this->entityManager
-            ->getRepository(Pet::class)
-            ->findAll(),
+                ->getRepository(Pet::class)
+                ->findAll(),
             'json'
         );
     }
@@ -55,7 +58,8 @@ class PetService
 
     public function addPetToStore(array $petData)
     {
-        $pet=new Pet();
+
+        $pet = new Pet();
         $pet->setName($petData['name']);
         $pet->setCategory($petData['category']);
         $pet->setPhotoUrls($petData['photoUrls']);
@@ -68,32 +72,25 @@ class PetService
         return $pet->getId();
     }
 
-//    /**
-//     * @param $name
-//     * @param Request $request
-//     * @return JsonResponse
-//     */
-//    public function updatePet($name, Request $request)
-//    {
-//        $pet = $this->entityManager -> getRepository(Pet::class);
-//
-//        if (!$pet) {
-//            $this->throw404();
-//        }
-//
-//        $data = json_decode($request->getContent(), true);
-//
-//        $pet->name = $data['nickname'];
-//        $pet->avatarNumber = $data['avatarNumber'];
-//        $pet->tagLine = $data['tagLine'];
-//        $pet->userId = $this->findUserByUsername('weaverryan')->id;
-//
-//        $this->save($pet);
-//
-//        $data = $this->serializer->serialize($pet);
-//
-//        $response = new JsonResponse($data, 200);
-//
-//        return $response;
-//    }
+
+
+    public function updatePet(array $petData)
+    {
+
+        $pet = $this->entityManager->getRepository(Pet:: class);
+
+
+        $pet->name = $petData['name'];
+        $pet->category = $petData['category'];
+        $pet->photoUrls = $petData['photoUrls'];
+        $pet->tags = $petData['tags'];
+        $pet->status = $petData['status'];
+
+        $this->entityManager->persist($pet);
+        $this->entityManager->flush();
+
+        return $pet;
+    }
+
+
 }

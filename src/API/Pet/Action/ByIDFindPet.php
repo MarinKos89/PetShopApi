@@ -37,10 +37,10 @@ class ByIDFindPet extends Controller
      */
     public function __invoke($petID): Response
     {
-        #korak 1
+
         $command = ByIDFindPetCommand::deserialize($petID);
 
-        #korak 2
+
         $pet = $this->handler->handle($command);
 
         if($pet){

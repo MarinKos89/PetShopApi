@@ -1,12 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mkos8
- * Date: 23.4.2018.
- * Time: 19:42
- */
+
 
 namespace App\API\Pet\Handler;
+use App\API\Pet\Command\UpdatePetCommand;
 use App\API\Pet\Service\PetService;
 
 /**
@@ -15,29 +11,39 @@ use App\API\Pet\Service\PetService;
  */
 class UpdatePetHandler
 {
+
+
     /**
-     * @var PetService $service
+     * @var PetService  $service
      */
     private $service;
 
     /**
      * UpdatePetHandler constructor.
-     * @param $service
+     * @param PetService $service
      */
-    public function __construct($service)
+    public function __construct(PetService $service)
     {
         $this->service = $service;
     }
 
+
     /**
      * @return string
      */
-    public function handle(){
-       return $this->service->selectPets();
+    public function hadnle(){
+        return $this->service->selectPets();
     }
 
+    /**
+     * @param UpdatePetCommand $updatePetCommand
+     * @return mixed
+     */
+    public function handleUpdatePet(UpdatePetCommand $updatePetCommand){
 
-
+        return $this->service
+            ->updatePet($updatePetCommand->toArray());
+    }
 
 
 }

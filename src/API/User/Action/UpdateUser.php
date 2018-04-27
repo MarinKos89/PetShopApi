@@ -7,8 +7,13 @@
  */
 
 namespace App\API\User\Action;
+use App\API\User\Command\UpdateUserCommand;
+use App\API\User\Entity\User;
+use App\API\User\Handler\UpdateUserHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UpdateUser
@@ -18,11 +23,34 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UpdateUser
 {
 
+
     /**
-     * @return JsonResponse
+     * @var UpdateUserHandler $handler
      */
-    public function __invoke():JsonResponse
+    private $handler;
+
+    /**
+     * UpdateUser constructor.
+     * @param UpdateUserHandler $handler
+     */
+    public function __construct(UpdateUserHandler $handler)
     {
-        return new JsonResponse("Updated user");
+        $this->handler = $handler;
+    }
+
+
+    /**
+     * @param Request $request
+     * @param string $username
+     * @return Response
+     */
+    public function __invoke(Request $request,$username):Response
+    {
+
+        $command=UpdateUserCommand::deserialize(
+            (array) json_decode($request->getContent(false))
+        );
+
+        return $this->handler->handle($command,$username);
     }
 }

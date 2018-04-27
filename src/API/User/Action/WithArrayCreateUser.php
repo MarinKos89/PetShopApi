@@ -5,7 +5,7 @@ namespace App\API\User\Action;
 
 use App\API\User\Command\CreateUserCommand;
 use App\API\User\Command\WithArrayCreateUserCommand;
-use App\API\User\Handler\UserHandler;
+use App\API\User\Handler\CreateUserHandler;
 use App\API\User\Handler\WithArrayCreateUserHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,19 +20,23 @@ use Symfony\Component\HttpFoundation\Response;
 class WithArrayCreateUser
 {
 
+
     /**
-     * @var UserHandler $handler
+     * @var WithArrayCreateUserHandler $handler
      */
     private $handler;
 
     /**
      * WithArrayCreateUser constructor.
-     * @param UserHandler $handler
+     * @param WithArrayCreateUserHandler $handler
      */
-    public function __construct(UserHandler $handler)
+    public function __construct(WithArrayCreateUserHandler $handler)
     {
         $this->handler = $handler;
     }
+
+
+
 
 
     /**
@@ -42,17 +46,16 @@ class WithArrayCreateUser
     public function __invoke(Request $request): Response
     {
 
-        $command = CreateUserCommand::deserialize(
+        $command = WithArrayCreateUserCommand::deserialize(
             (array) json_decode($request->getContent(false))
         );
 
-        $success = $this->handler->handleCreateUser($command);
+        $success = $this->handler->handle($command);
         if ($success)
         {
-            return new Response('successful operation, user id added: ' .$success,
-                200);
+            return $success;
         }
 
-        return new Response('',400);
+        return new Response('Invalid input ',405);
     }
 }

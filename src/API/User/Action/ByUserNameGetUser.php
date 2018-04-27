@@ -8,8 +8,10 @@
 
 namespace App\API\User\Action;
 
+use App\API\User\Handler\ByUserNameGetUserHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ByUserNameGetUser
@@ -20,11 +22,27 @@ class ByUserNameGetUser
 {
 
     /**
-     * @return JsonResponse
+     * @var ByUserNameGetUserHandler $handler
      */
-    public function __invoke():JsonResponse
+    private $handler;
+
+    /**
+     * ByUserNameGetUser constructor.
+     * @param ByUserNameGetUserHandler $handler
+     */
+    public function __construct(ByUserNameGetUserHandler $handler)
     {
-       return new JsonResponse("Get user by user name");
+        $this->handler = $handler;
+    }
+
+
+    /**
+     * @param string $username
+     * @return Response
+     */
+    public function __invoke($username):Response
+    {
+       return $this->handler->handle($username);
     }
 
 }

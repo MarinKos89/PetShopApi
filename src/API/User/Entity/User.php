@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
+
+    const STASUS = ['active'=>1,'not_active'=>0];
+
     /**
      * @var int $id
      * @ORM\Id()
@@ -23,6 +26,12 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $username;
+
+    /**
+     * @var string $password
+     * @ORM\Column(type="string", length=128)
+     */
+    private $password;
 
     /**
      * @var string $firstName
@@ -117,6 +126,22 @@ class User
         $this->phone = $phone;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 
     public function getUserStatus(): ?int

@@ -48,32 +48,10 @@ class ByIDFindPetCommand
         ];
     }
 
-    /**
-     * @param int $petID
-     * @return ByIDFindPetCommand
-     * pojasniti što?
-     * a ono,da
-     * assert je validator koji ima razne mogućnosti, pogledaj si na netu ima svašta
-     * ovdje smo mu rekli da mora biti petID ponjen ili se dalje ne može
-     * on prekine svaku radnju
-     * lazy se odnosi na lazy loading, znači ne učitava se dok ga se ne pozove
-     * ok
-     * sad ćemo dodati i dio koji će automacki vidjeti postoji li takav key i zato moramo malo promjeniti ovu funkciju
-     * kako bi bila primjenjiva na polje
-     * ubuduće će ti ovo obraditi sve key value parove
-     *
-     */
+
     public static function deserialize(int $petID): ByIDFindPetCommand
     {
         return new ByIDFindPetCommand($petID);
-//        Assert::lazy()
-//            ->that($command, null)
-//            ->tryAll()
-//            ->keyExists('petID', 'petID mora biti poslan')
-//            ->verifyNow();
-//
-//        return new ByIDFindPetCommand(
-//            $this->petID
-//        );
+
     }
 }

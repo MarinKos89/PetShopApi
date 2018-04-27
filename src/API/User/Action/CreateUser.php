@@ -3,7 +3,7 @@
 namespace App\API\User\Action;
 
 use App\API\User\Command\CreateUserCommand;
-use App\API\User\Handler\UserHandler;
+use App\API\User\Handler\CreateUserHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CreateUser
 {
     /**
-     * @var UserHandler $handler
+     * @var CreateUserHandler $handler
      */
     private $handler;
 
@@ -25,7 +25,7 @@ class CreateUser
      * CreateUser constructor.
      * @param $handler
      */
-    public function __construct(UserHandler $handler)
+    public function __construct(CreateUserHandler $handler)
     {
         $this->handler = $handler;
     }
@@ -40,13 +40,12 @@ class CreateUser
             (array) json_decode($request->getContent(false))
         );
 
-        $success = $this->handler->handleCreateUser($command);
+        $success = $this->handler->handle($command);
         if ($success)
         {
-            return new Response('successful operation, user id added: ' .$success,
-                200);
+            return $success;
         }
 
-        return new Response('',400);
+        return new Response('invalid input ',405);
     }
 }

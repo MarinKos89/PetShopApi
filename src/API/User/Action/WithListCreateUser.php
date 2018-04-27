@@ -9,7 +9,7 @@
 namespace App\API\User\Action;
 
 use App\API\User\Command\CreateUserCommand;
-use App\API\User\Handler\UserHandler;
+use App\API\User\Handler\CreateUserHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +23,15 @@ use Symfony\Component\HttpFoundation\Response;
 class WithListCreateUser
 {
     /**
-     * @var UserHandler $handler
+     * @var CreateUserHandler $handler
      */
     private $handler;
 
     /**
      * WithListCreateUser constructor.
-     * @param UserHandler $handler
+     * @param CreateUserHandler $handler
      */
-    public function __construct(UserHandler $handler)
+    public function __construct(CreateUserHandler $handler)
     {
         $this->handler = $handler;
     }

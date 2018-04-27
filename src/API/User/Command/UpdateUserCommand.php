@@ -1,11 +1,22 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: mkos8
+ * Date: 27.4.2018.
+ * Time: 15:20
+ */
 
 namespace App\API\User\Command;
 
-use Assert\Assert;
 
-class CreateUserCommand
+class UpdateUserCommand
 {
+
+    /**
+     * @var int $id
+     */
+    private $id;
+
     /**
      * @var string $username
      */
@@ -42,7 +53,8 @@ class CreateUserCommand
     private $userStatus;
 
     /**
-     * CreateUserCommand constructor.
+     * UpdateUserCommand constructor.
+     * @param int $id
      * @param string $username
      * @param string $firstName
      * @param string $lastName
@@ -51,8 +63,9 @@ class CreateUserCommand
      * @param string $phone
      * @param int $userStatus
      */
-    public function __construct(string $username, string $firstName, string $lastName, string $email, string $password, string $phone, int $userStatus)
+    public function __construct(int $id, string $username, string $firstName, string $lastName, string $email, string $password, string $phone, int $userStatus)
     {
+        $this->id = $id;
         $this->username = $username;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -63,19 +76,19 @@ class CreateUserCommand
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getPassword(): string
+    public function getId(): int
     {
-        return $this->password;
+        return $this->id;
     }
 
     /**
-     * @param string $password
+     * @param int $id
      */
-    public function setPassword(string $password): void
+    public function setId(int $id): void
     {
-        $this->password = $password;
+        $this->id = $id;
     }
 
     /**
@@ -145,6 +158,22 @@ class CreateUserCommand
     /**
      * @return string
      */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return string
+     */
     public function getPhone(): string
     {
         return $this->phone;
@@ -174,42 +203,44 @@ class CreateUserCommand
         $this->userStatus = $userStatus;
     }
 
-
     /**
      * @return array
      */
-    public function toArray(): array
+    public function toArray():array
     {
-        return [
-            'username'      => $this->getUsername(),
-            'firstName'     => $this->getFirstName(),
-            'lastName'      => $this->getLastName(),
-            'email'         => $this->getEmail(),
+        return[
+            'id'         => $this->getId(),
+            'username'   => $this->getUsername(),
+            'firstName'  => $this->getFirstName(),
+            'lastName'   => $this->getLastName(),
+            'email'      => $this->getEmail(),
             'password'   => $this->getPassword(),
-            'phone'         => $this->getPhone(),
-            'userStatus'    => $this->getUserStatus()
+            'phone'      => $this->getPhone(),
+            'userStatus' => $this->getUserStatus()
         ];
     }
 
     /**
      * @param array $command
-     * @return CreateUserCommand
+     * @return UpdateUserCommand
      */
-    public static function deserialize(array $command): CreateUserCommand
+    public static function deserialize(array $command): UpdateUserCommand
     {
         Assert::lazy()
-            ->that($command, null)
+            ->that($command,null)
             ->tryAll()
-            ->keyExists('username', 'username is required')
-            ->keyExists('firstName', 'firstName is required')
-            ->keyExists('lastName', 'lastName is required')
-            ->keyExists('email', 'email is required')
+            ->keyExists('id','username is required')
+            ->keyExists('username','username is required')
+            ->keyExists('firstName','firstName is required')
+            ->keyExists('lastName','lastName is required')
+            ->keyExists('email','email is required')
             ->keyExists('password','password is required')
-            ->keyExists('phone', 'phone is required')
-            ->keyExists('userStatus', 'userStatus is required')
+            ->keyExists('phone','phone is required')
+            ->keyExists('userStatus','userStatus is required')
             ->verifyNow();
 
-        return new CreateUserCommand(
+        return new UpdateUserCommand(
+            $command['id'],
             $command['username'],
             $command['firstName'],
             $command['lastName'],
@@ -219,4 +250,5 @@ class CreateUserCommand
             $command['userStatus']
         );
     }
+
 }

@@ -1,10 +1,15 @@
 <?php
 
+
 namespace App\API\User\Command;
 
 use Assert\Assert;
 
-class CreateUserCommand
+/**
+ * Class WithArrayCreateUserCommand
+ * @package App\API\User\Command
+ */
+class WithArrayCreateUserCommand
 {
     /**
      * @var string $username
@@ -42,7 +47,7 @@ class CreateUserCommand
     private $userStatus;
 
     /**
-     * CreateUserCommand constructor.
+     * WithArrayCreateUserCommand constructor.
      * @param string $username
      * @param string $firstName
      * @param string $lastName
@@ -60,22 +65,6 @@ class CreateUserCommand
         $this->password = $password;
         $this->phone = $phone;
         $this->userStatus = $userStatus;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     */
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
     }
 
     /**
@@ -145,6 +134,22 @@ class CreateUserCommand
     /**
      * @return string
      */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return string
+     */
     public function getPhone(): string
     {
         return $this->phone;
@@ -174,49 +179,57 @@ class CreateUserCommand
         $this->userStatus = $userStatus;
     }
 
-
     /**
      * @return array
      */
-    public function toArray(): array
+    public function toArray():array
     {
-        return [
-            'username'      => $this->getUsername(),
-            'firstName'     => $this->getFirstName(),
-            'lastName'      => $this->getLastName(),
-            'email'         => $this->getEmail(),
+        return[
+            'username'   => $this->getUsername(),
+            'firstName'  => $this->getFirstName(),
+            'lastName'   => $this->getLastName(),
+            'email'      => $this->getEmail(),
             'password'   => $this->getPassword(),
-            'phone'         => $this->getPhone(),
-            'userStatus'    => $this->getUserStatus()
+            'phone'      => $this->getPhone(),
+            'userStatus' => $this->getUserStatus()
         ];
     }
 
     /**
      * @param array $command
-     * @return CreateUserCommand
+     * @return array
      */
-    public static function deserialize(array $command): CreateUserCommand
+    public static function deserialize(array $command): array
     {
-        Assert::lazy()
-            ->that($command, null)
-            ->tryAll()
-            ->keyExists('username', 'username is required')
-            ->keyExists('firstName', 'firstName is required')
-            ->keyExists('lastName', 'lastName is required')
-            ->keyExists('email', 'email is required')
-            ->keyExists('password','password is required')
-            ->keyExists('phone', 'phone is required')
-            ->keyExists('userStatus', 'userStatus is required')
-            ->verifyNow();
+        $buffer = [];
+        foreach ($command['users'] AS $user)
+        {
 
-        return new CreateUserCommand(
-            $command['username'],
-            $command['firstName'],
-            $command['lastName'],
-            $command['email'],
-            $command['password'],
-            $command['phone'],
-            $command['userStatus']
-        );
+            Assert::lazy()
+                ->that($user,null)
+                ->tryAll()
+                ->propertyExists('username','username is required')
+                ->propertyExists('firstName','firstName is required')
+                ->propertyExists('lastName','lastName is required')
+                ->propertyExists('email','email is required')
+                ->propertyExists('password','password is required')
+                ->propertyExists('phone','phone is required')
+                ->propertyExists('userStatus','userStatus is required')
+                ->verifyNow();
+
+            $buffer[] = new WithArrayCreateUserCommand(
+                $user->username,
+                $user->firstName,
+                $user->lastName,
+                $user->email,
+                $user->password,
+                $user->phone,
+                $user->userStatus
+            );
+        }
+
+        return $buffer;
     }
+
+
 }
