@@ -8,8 +8,10 @@
 
 namespace App\API\User\Action;
 
+use App\API\User\Handler\LogoutUserHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class LogOutUser
@@ -19,11 +21,32 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class LogOutUser
 {
 
+
     /**
-     * @return JsonResponse
+     * @var LogoutUserHandler $handler
      */
-    public function __invoke():JsonResponse
+    private $handler;
+
+    /**
+     * LogOutUser constructor.
+     * @param LogoutUserHandler $handler
+     */
+    public function __construct(LogoutUserHandler $handler)
     {
-       return new JsonResponse("Logs out current logged in user session");
+        $this->handler = $handler;
+    }
+
+
+
+    public function __invoke():Response
+    {
+        $response=$this->handler->handle();
+
+        if ($response){
+            return new Response('Successful operation ', 200);
+        }
+
+
+       return new Response('Invalid username/password supplied',400);
     }
 }

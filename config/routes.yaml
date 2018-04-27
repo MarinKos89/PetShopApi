@@ -1,3 +1,16 @@
 #index:
 #    path: /
 #    controller: App\API\HomeController::homepage
+
+
+login_user:
+    path: /user/login
+    controller: App\API\User\Action\LoginUser
+
+logout_user:
+    path: /user/logout
+    controller: App\API\User\Action\LogoutUser
+
+select_user:
+    path: /user/{username}
+    controller: App\API\User\Action\ByUsernameGetUser

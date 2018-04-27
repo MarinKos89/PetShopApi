@@ -56,6 +56,10 @@ class PetService
     }
 
 
+    /**
+     * @param array $petData
+     * @return Response
+     */
     public function addPetToStore(array $petData)
     {
 
@@ -69,7 +73,7 @@ class PetService
         $this->entityManager->persist($pet);
         $this->entityManager->flush();
 
-        return $pet->getId();
+        return new Response('Successful operation ',200);
     }
 
 

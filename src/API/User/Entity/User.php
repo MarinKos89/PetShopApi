@@ -63,6 +63,29 @@ class User
      */
     private $userStatus;
 
+
+    /**
+     * @var bool $isLoggedIn
+     */
+    private $isLoggedIn;
+
+    /**
+     * @return bool
+     */
+    public function isLoggedIn(): bool
+    {
+        return $this->isLoggedIn;
+    }
+
+    /**
+     * @param bool $isLoggedIn
+     */
+    public function setIsLoggedIn(bool $isLoggedIn): void
+    {
+        $this->isLoggedIn = $isLoggedIn;
+    }
+
+
     public function getId()
     {
         return $this->id;
