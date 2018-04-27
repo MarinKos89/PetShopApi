@@ -3,6 +3,7 @@
 namespace App\API\Pet\Action;
 
 use App\API\Pet\Command\UpdatePetCommand;
+use App\API\Pet\Entity\Pet;
 use App\API\Pet\Handler\UpdatePetHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,23 +33,17 @@ class UpdatePet
 
 
     /**
-     * @param $petID
-     * @return JsonResponse
+     * @param Request $request
+     * @param Pet $petID
+     * @return Response
      */
     public function __invoke(Request $request,$petID):Response
     {
-        $command=UpdatePetCommand::deserialize(
-            (array)json_decode($request->getContent(false))
-        );
+       $command=UpdatePetCommand::deserialize(
+           (array) json_decode($request->getContent(false))
+       );
 
-        $success=$this->handler->handleUpdatePet($command);
-
-        if ($success)
-        {
-            return new Response('Pesek je update-an ' .$success);
-        }
-
-        return new Response("invalid input",400);
+       return $this->handler->handle($command,$petID);
     }
 
 }

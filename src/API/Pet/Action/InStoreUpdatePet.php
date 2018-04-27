@@ -32,24 +32,10 @@ class InStoreUpdatePet
     }
 
 
-    /**
-     * @param $petID
-     * @return JsonResponse
-     */
+
     public function __invoke(Request $request):Response
     {
-        $command=InStoreUpdatePetCommand::deserialize(
-            (array)json_decode($request->getContent(false))
-        );
 
-        $success=$this->handler->handlePet($command);
-
-        if ($success)
-        {
-            return new Response('Pesek je update-an ' .$success);
-        }
-
-        return new Response("invalid input",400);
     }
 
 }

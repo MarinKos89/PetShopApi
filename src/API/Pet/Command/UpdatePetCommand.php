@@ -9,12 +9,52 @@ use Assert\Assert;
 class UpdatePetCommand
 {
 
+    /**
+     * @var int
+     */
+    private $id;
+
     private $category;
 
     /**
      * @var string
      */
     private $name;
+
+    /**
+     * UpdatePetCommand constructor.
+     * @param int $id
+     * @param $category
+     * @param string $name
+     * @param string $photoUrls
+     * @param int $tags
+     * @param int $status
+     */
+    public function __construct(int $id, $category, string $name, string $photoUrls, int $tags, int $status)
+    {
+        $this->id = $id;
+        $this->category = $category;
+        $this->name = $name;
+        $this->photoUrls = $photoUrls;
+        $this->tags = $tags;
+        $this->status = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
     /**
      * @var string
@@ -31,22 +71,7 @@ class UpdatePetCommand
      */
     private $status;
 
-    /**
-     * UpdatePetCommand constructor.
-     * @param $category
-     * @param string $name
-     * @param string $photoUrls
-     * @param int $tags
-     * @param int $status
-     */
-    public function __construct($category, string $name, string $photoUrls, int $tags, int $status)
-    {
-        $this->category = $category;
-        $this->name = $name;
-        $this->photoUrls = $photoUrls;
-        $this->tags = $tags;
-        $this->status = $status;
-    }
+
 
     /**
      * @return mixed
@@ -131,19 +156,22 @@ class UpdatePetCommand
     /**
      * @return array
      */
-    public function  toArray():array {
+    public function toArray(): array
+    {
 
-        return[
+        return [
 
-            'category'  => $this->getCategory(),
+            'id' => $this->getCategory(),
 
-            'name'  => $this->getName(),
+            'category' => $this->getCategory(),
 
-            'photoUrls'  => $this->getPhotoUrls(),
+            'name' => $this->getName(),
 
-            'tags'  => $this->getTags(),
+            'photoUrls' => $this->getPhotoUrls(),
 
-            'status'  => $this->getStatus()
+            'tags' => $this->getTags(),
+
+            'status' => $this->getStatus()
 
         ];
     }
@@ -152,23 +180,22 @@ class UpdatePetCommand
      * @param array $updatepet
      * @return UpdatePetCommand
      */
-    public static function deserialize(array $updatepet):UpdatePetCommand{
+    public static function deserialize(array $updatepet): UpdatePetCommand
+    {
 
         Assert::lazy()
-            ->that($updatepet,null)
+            ->that($updatepet, null)
             ->tryAll()
-            ->keyExists('category','category is required')
-
-            ->keyExists('name','name is required')
-
-            ->keyExists('photoUrls','photoUrls is required')
-
-            ->keyExists('tags','tags is required')
-
-            ->keyExists('status','status is required')
+            ->keyExists('id', 'id is required')
+            ->keyExists('category', 'category is required')
+            ->keyExists('name', 'name is required')
+            ->keyExists('photoUrls', 'photoUrls is required')
+            ->keyExists('tags', 'tags is required')
+            ->keyExists('status', 'status is required')
             ->verifyNow();
 
         return new UpdatePetCommand(
+            $updatepet['id'],
             $updatepet['category'],
             $updatepet['name'],
             $updatepet['photoUrls'],

@@ -3,7 +3,9 @@
 
 namespace App\API\Pet\Handler;
 use App\API\Pet\Command\UpdatePetCommand;
+use App\API\Pet\Entity\Pet;
 use App\API\Pet\Service\PetService;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UpdatePetHandler
@@ -28,21 +30,15 @@ class UpdatePetHandler
     }
 
 
-    /**
-     * @return string
-     */
-    public function hadnle(){
-        return $this->service->selectPets();
-    }
 
     /**
      * @param UpdatePetCommand $updatePetCommand
-     * @return mixed
+     * @param Pet $id
+     * @return Response
      */
-    public function handleUpdatePet(UpdatePetCommand $updatePetCommand){
+    public function handle(UpdatePetCommand $updatePetCommand, $id){
 
-        return $this->service
-            ->updatePet($updatePetCommand->toArray());
+        return $this->service->updatePet($updatePetCommand->toArray(),$id);
     }
 
 

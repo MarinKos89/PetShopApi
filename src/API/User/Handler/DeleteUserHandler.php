@@ -4,7 +4,6 @@
 namespace App\API\User\Handler;
 
 
-use App\API\User\Command\DeleteUserCommand;
 use App\API\User\Entity\User;
 use App\API\User\Service\UserService;
 

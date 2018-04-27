@@ -34,11 +34,7 @@ class InStoreUpdatePetHandler
         return $this->service->updatePet();
     }
 
-    public function handlePet(InStoreUpdatePetCommand $petCommand){
 
-        return $this->service
-            ->updatePet($petCommand->toArray());
-    }
 
 
 

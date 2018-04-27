@@ -77,24 +77,89 @@ class PetService
     }
 
 
-
-    public function updatePet(array $petData)
+    /**
+     * @param array $id
+     * @param Pet $pet
+     * @return Response
+     */
+    public function updatePet($id,$pet)
     {
 
-        $pet = $this->entityManager->getRepository(Pet:: class);
+        $repository = $this->entityManager->getRepository(Pet:: class);
+        $existingPet=$repository->find($id);
+
+        if (!is_null($existingPet))
+        {
+            $existingPet->setID($pet['id']);
+            $existingPet->setCategory($pet['category']);
+            $existingPet->setPhotoUrls($pet['photoUrls']);
+            $existingPet->setTags($pet['tags']);
+            $existingPet->setStatus($pet['status']);
+            $this->entityManager->flush();
 
 
-        $pet->name = $petData['name'];
-        $pet->category = $petData['category'];
-        $pet->photoUrls = $petData['photoUrls'];
-        $pet->tags = $petData['tags'];
-        $pet->status = $petData['status'];
+            return new Response('Successful operation ', 200);
+        }
 
-        $this->entityManager->persist($pet);
-        $this->entityManager->flush();
+        return new Response('invalid id supplied ',400);
 
-        return $pet;
+
     }
+
+
+    /**
+     * @param Pet $id
+     * @return Response
+     */
+    public function  deletePet($id){
+
+
+        $repository=$this->entityManager->getRepository(Pet::class);
+        $pet=$repository->find($id);
+
+        if (!is_null($id))
+        {
+            $this->entityManager->remove($pet);
+            $this->entityManager->flush();
+
+            return new Response('Successful operation ',200);
+        }
+
+        return new Response('Pet not found ',404);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
