@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class LoginUser
 {
+
     /**
      * @return JsonResponse
      */
