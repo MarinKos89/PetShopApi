@@ -7,6 +7,7 @@ use App\API\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -215,6 +216,45 @@ class UserService
     }
 
 
+    /**
+     * @param array $loginData
+     * @return bool
+     */
+    public function loginUser($loginData){
+
+        $repository=$this->entityManager->getRepository(User::class);
+        $existingUser=$repository->findOneBy(array(
+            'username'=>$loginData['username'],
+            'password'=>$loginData['password']
+        ));
+
+        $session=new Session();
+        if ($existingUser instanceof User){
+            $user=new User();
+            $user->setUsername($existingUser->getUsername());
+            $user->setPassword($existingUser->getPassword());
+            $user->setIsLoggedIn(true);
+
+            $session->set('user',$user);
+
+            return true;
+        }
+
+        $session->set('user',null);
+
+        return false;
+
+    }
+
+    /**
+     * @return bool
+     */
+    public function logoutUser(){
+
+        $session=new Session();
+        $session->set('user',null);
+        return true;
+    }
 
 
 

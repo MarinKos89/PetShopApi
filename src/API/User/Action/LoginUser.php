@@ -8,8 +8,12 @@
 
 namespace App\API\User\Action;
 
+use App\API\User\Command\LoginUserCommand;
+use App\API\User\Handler\LoginUserHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class LoginUser
@@ -19,12 +23,40 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class LoginUser
 {
 
+
     /**
-     * @return JsonResponse
+     * @var LoginUserHandler $handler
      */
-    public function __invoke():JsonResponse
+    private $handler;
+
+
+    /**
+     * LoginUser constructor.
+     * @param LoginUserHandler $handler
+     */
+    public function __construct(LoginUserHandler $handler)
     {
-       return new JsonResponse("logs user into the system");
+        $this->handler = $handler;
+    }
+
+
+    public function __invoke(Request $request): Response
+    {
+        $command = LoginUserCommand::deserialize(
+            [
+                'username' => $request->query->get('username'),
+                'password' => $request->query->get('password')
+            ]
+        );
+
+        $response=$this->handler->handle($command);
+
+        if ($request){
+            return new Response('Successful operation ',200);
+        }
+
+
+        return new Response("Invalid username/password ",400);
     }
 
 }
