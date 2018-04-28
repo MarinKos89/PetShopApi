@@ -8,8 +8,12 @@
 
 namespace App\API\Store\Action;
 
+use App\API\Store\Command\OrderAPetFromStoreCommand;
+use App\API\Store\Handler\OrderAPetFromStoreHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -19,12 +23,39 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class OrderAPetFromStore
 {
+
     /**
-     * @return JsonResponse
+     * @var OrderAPetFromStoreHandler $handler
      */
-    public function __invoke():JsonResponse
+    private $handler;
+
+    /**
+     * OrderAPetFromStore constructor.
+     * @param OrderAPetFromStoreHandler $handler
+     */
+    public function __construct(OrderAPetFromStoreHandler $handler)
     {
-        return new JsonResponse("Place an order for a pet");
+        $this->handler = $handler;
+    }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function __invoke(Request $request):Response
+    {
+        $command = OrderAPetFromStoreCommand::deserialize(
+            (array) json_decode($request->getContent(false))
+        );
+
+        $success = $this->handler->handle($command);
+        if ($success)
+        {
+            return $success;
+        }
+
+        return new Response('invalid order ',400);
     }
 
 }
