@@ -42,6 +42,13 @@ doctrine:
                 prefix: 'App\API\User\Entity'
                 alias: User
 
+            store:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/API/Store/Entity'
+                prefix: 'App\API\Store\Entity'
+                alias: Order
+
 #            user:
 #                is_bundle: false
 #                type: annotation

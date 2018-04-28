@@ -7,6 +7,7 @@
  */
 
 namespace App\API\Pet\Handler;
+
 use App\API\Pet\Service\PetService;
 
 /**
@@ -36,7 +37,8 @@ class ByStatusFindPetHandler
      * @param $status
      * @return string
      */
-    public function handle($status){
+    public function handle($status)
+    {
 
 
         return $this->service->byStatusFindPet($status);
