@@ -27,7 +27,8 @@ class ByIDFindPet extends Controller
      */
     public function __construct(
         ByIDFindPetHandler $handler
-    ) {
+    )
+    {
         $this->handler = $handler;
     }
 
@@ -43,7 +44,7 @@ class ByIDFindPet extends Controller
 
         $pet = $this->handler->handle($command);
 
-        if($pet){
+        if ($pet) {
             return new Response($pet);
         }
 

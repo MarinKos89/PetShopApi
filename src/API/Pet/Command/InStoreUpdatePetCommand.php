@@ -25,16 +25,32 @@ class InStoreUpdatePetCommand
 
     /**
      * InStoreUpdatePetCommand constructor.
+     * @param int $id
      * @param string $name
      * @param int $status
      */
-    public function __construct( string $name, int $status)
+    public function __construct(int $id, string $name, int $status)
     {
-
+        $this->id = $id;
         $this->name = $name;
         $this->status = $status;
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
 
     /**
@@ -69,27 +85,30 @@ class InStoreUpdatePetCommand
         $this->status = $status;
     }
 
-    public function toArray():array{
+    public function toArray(): array
+    {
 
         return [
-            'name'=>$this->getName(),
-            'status'=>$this->getStatus()
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'status' => $this->getStatus()
         ];
     }
 
-    public static function deserialize(array $command): InStoreUpdatePetCommand{
+    public static function deserialize(array $command): InStoreUpdatePetCommand
+    {
 
         Assert::lazy()
-            ->that($command,null)
+            ->that($command, null)
             ->tryAll()
-
-            ->keyExists('name','name is required')
-
-            ->keyExists('status','status is required')
+            ->keyExists('id', 'id is required')
+            ->keyExists('name', 'name is required')
+            ->keyExists('status', 'status is required')
             ->verifyNow();
 
         return new InStoreUpdatePetCommand(
 
+            $command['id'],
             $command['name'],
             $command['status']
         );

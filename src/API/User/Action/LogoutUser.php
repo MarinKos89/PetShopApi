@@ -14,21 +14,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class LogOutUser
+ * Class LogoutUser
  * @package App\API\User\Action
  * @Route("/user/logout",name="logout_user",methods={"GET"})
  */
-class LogOutUser
+class LogoutUser
 {
-
-
     /**
      * @var LogoutUserHandler $handler
      */
     private $handler;
 
     /**
-     * LogOutUser constructor.
+     * LogoutUser constructor.
      * @param LogoutUserHandler $handler
      */
     public function __construct(LogoutUserHandler $handler)
@@ -36,8 +34,9 @@ class LogOutUser
         $this->handler = $handler;
     }
 
-
-
+    /**
+     * @return Response
+     */
     public function __invoke():Response
     {
         $response=$this->handler->handle();

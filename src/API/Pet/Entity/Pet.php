@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping\OneToOne;
  */
 class Pet
 {
+    const  STATUS = ['available', 'pending', 'sold'];
+
     /**
      * @var int $id
      * @ORM\Id()

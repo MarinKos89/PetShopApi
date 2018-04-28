@@ -52,7 +52,7 @@ class ToStoreAddPet
 
         if ($success)
         {
-            return new Response('bravo, pesek je dodan ' .$success,200);
+            return new Response('Successful operation ' .$success,200);
         }
 
         return new Response('Invalid input ', 400);

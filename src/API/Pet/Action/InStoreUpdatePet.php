@@ -32,9 +32,18 @@ class InStoreUpdatePet
     }
 
 
-
-    public function __invoke(Request $request):Response
+    /**
+     * @param Request $request
+     * @param $petID
+     * @return Response
+     */
+    public function __invoke(Request $request,$petID):Response
     {
+        $command=InStoreUpdatePetCommand::deserialize(
+            (array) json_decode($request->getContent(false))
+        );
+
+        return $this->handler->handle($command,$petID);
 
     }
 

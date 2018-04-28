@@ -14,7 +14,7 @@ class PetService
 
     private $entityManager;
 
-    #2. trebamo serijalizaciju
+
     private $serializer;
 
     /**
@@ -31,6 +31,10 @@ class PetService
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param int $petID
+     * @return string
+     */
     public function byIDFindPet(int $petID)
     {
 
@@ -41,6 +45,33 @@ class PetService
             'json'
         );
     }
+
+
+    /**
+     * @param $pet
+     * @return Response
+     */
+    public function byStatusFindPet($pet)
+    {
+
+
+        $repository = $this->entityManager->getRepository(Pet::class);
+        $petStatus = $repository->findOneBy(array('status' => Pet::STATUS));
+
+        if (!is_null($petStatus)) {
+
+            return new Response($this->serializer->serialize(
+                $repository->find($pet),
+                'json'
+            ), 200
+            );
+
+        }
+
+        return new Response('Invalid user supplied ', 400);
+
+    }
+
 
     /**
      * @return string
@@ -73,7 +104,7 @@ class PetService
         $this->entityManager->persist($pet);
         $this->entityManager->flush();
 
-        return new Response('Successful operation ',200);
+        return new Response('Successful operation ', 200);
     }
 
 
@@ -82,14 +113,13 @@ class PetService
      * @param Pet $pet
      * @return Response
      */
-    public function updatePet($id,$pet)
+    public function updatePet($id, $pet)
     {
 
         $repository = $this->entityManager->getRepository(Pet:: class);
-        $existingPet=$repository->find($id);
+        $existingPet = $repository->find($id);
 
-        if (!is_null($existingPet))
-        {
+        if (!is_null($existingPet)) {
             $existingPet->setID($pet['id']);
             $existingPet->setCategory($pet['category']);
             $existingPet->setPhotoUrls($pet['photoUrls']);
@@ -101,7 +131,7 @@ class PetService
             return new Response('Successful operation ', 200);
         }
 
-        return new Response('invalid id supplied ',400);
+        return new Response('invalid id supplied ', 400);
 
 
     }
@@ -111,52 +141,48 @@ class PetService
      * @param Pet $id
      * @return Response
      */
-    public function  deletePet($id){
+    public function deletePet($id)
+    {
 
 
-        $repository=$this->entityManager->getRepository(Pet::class);
-        $pet=$repository->find($id);
+        $repository = $this->entityManager->getRepository(Pet::class);
+        $pet = $repository->find($id);
 
-        if (!is_null($id))
-        {
+        if (!is_null($id)) {
             $this->entityManager->remove($pet);
             $this->entityManager->flush();
 
-            return new Response('Successful operation ',200);
+            return new Response('Successful operation ', 200);
         }
 
-        return new Response('Pet not found ',404);
+        return new Response('Pet not found ', 404);
     }
 
 
+    /**
+     * @param $pet
+     * @param $petID
+     * @return Response
+     */
+    public function inStoreUpdatePet($pet, $petID)
+    {
+        $repository = $this->entityManager->getRepository(Pet::class);
+        $existingPet = $repository->findOneBy(array('id' => $petID));
 
+        if (!is_null($existingPet)) {
 
+            $existingPet->setId($pet['id']);
+            $existingPet->setName($pet['name']);
+            $existingPet->setStatus($pet['status']);
+            $this->entityManager->flush();
 
+            return new Response('Successful operation ', 200);
 
+        }
 
+        return new Response('Invalid input ', 400);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 

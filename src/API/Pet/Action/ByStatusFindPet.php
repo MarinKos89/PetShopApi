@@ -3,8 +3,12 @@
 
 namespace App\API\Pet\Action;
 
+use App\API\Pet\Command\ByStatusFindPetCommand;
+use App\API\Pet\Handler\ByStatusFindPetHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ByStatusFindPet
@@ -13,12 +17,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class ByStatusFindPet
 {
+
+
     /**
-     * @return JsonResponse
+     * @var ByStatusFindPetHandler $handler
      */
-    public function __invoke(): JsonResponse
+    private $handler;
+
+    /**
+     * ByStatusFindPet constructor.
+     * @param ByStatusFindPetHandler $handler
+     */
+    public function __construct(ByStatusFindPetHandler $handler)
     {
-        // TODO: Implement __invoke() method.
-        return new JsonResponse("status ");
+        $this->handler = $handler;
+    }
+
+
+    /**
+     * @param $status
+     * @return string
+     */
+    public function __invoke($status): Response
+    {
+
+        return $this->handler->handle($status);
+
     }
 }

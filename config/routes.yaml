@@ -14,3 +14,7 @@ logout_user:
 select_user:
     path: /user/{username}
     controller: App\API\User\Action\ByUsernameGetUser
+
+get_user:
+    path: /user/{username}
+    controller: App\API\User\Action\ByUsernameGetUser

@@ -11,7 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
 
-    const STASUS = ['active'=>1,'not_active'=>0];
+    const STATUS = ['active'=>1,'not_active'=>0];
+
 
     /**
      * @var int $id

@@ -59,34 +59,42 @@ class UserService
      */
     public function createUser($user)
     {
-        $repository = $this->entityManager->getRepository(User::class);
-        $existingUser = $repository->findOneBy(array('email' => $user));
+        $session = new Session();
+        if (is_null($session->get('user'))) {
+            return new Response('Login required!', 200);
+        }
 
-        if (!is_null($existingUser)) {
-            $newUser = new User();
-            $newUser->setUsername($user['username']);
+        if ($session->get('user')->isLoggedIn() === true) {
+            $repository = $this->entityManager->getRepository(User::class);
+            $existingUser = $repository->findOneBy(array('email' => $user));
 
-            $newUser->setFirstName($user['firstName']);
+            if (is_null($existingUser)) {
+                $newUser = new User();
+                $newUser->setUsername($user['username']);
 
-            $newUser->setLastName($user['lastName']);
+                $newUser->setFirstName($user['firstName']);
 
-            $newUser->setEmail($user['email']);
+                $newUser->setLastName($user['lastName']);
 
-            $newUser->setPassword($user['password']);
+                $newUser->setEmail($user['email']);
 
-            $newUser->setPhone($user['phone']);
+                $newUser->setPassword($user['password']);
 
-            if (!in_array($user['userStatus'], User::STASUS)) {
-                return new Response('Invalid status', 405);
+                $newUser->setPhone($user['phone']);
+
+                if (!in_array($user['userStatus'], User::STATUS)) {
+                    return new Response('Invalid status', 405);
+                }
+
+                $newUser->setUserStatus($user['userStatus']);
+                $this->entityManager->persist($newUser);
+                $this->entityManager->flush();
+
+                return new Response('successful operation ', 200);
             }
 
-            $newUser->setUserStatus($user['userStatus']);
-            $this->entityManager->persist($newUser);
-            $this->entityManager->flush();
-
-            return new Response('successful operation ', 200);
+            return new Response('User exists', 200);
         }
-        return new Response('User exists', 200);
     }
 
 
@@ -124,7 +132,7 @@ class UserService
 
         if (!is_null($existingUser)) {
 
-            if (!in_array($user['userStatus'], User::STASUS)) {
+            if (!in_array($user['userStatus'], User::STATUS)) {
                 return new Response('Invalid status ', 405);
             }
 
@@ -177,15 +185,13 @@ class UserService
      */
     public function withArrayCreateUser($users)
     {
-        $in  = count($users);
+        $in = count($users);
         $out = 0;
-        foreach ($users AS $user)
-        {
+        foreach ($users AS $user) {
             $repository = $this->entityManager->getRepository(User::class);
             $existingUser = $repository->findOneBy(array('email' => $user->getEmail()));
 
-            if(is_null($existingUser))
-            {
+            if (is_null($existingUser)) {
                 $newUser = new User();
                 $newUser->setUsername($user->getUsername());
                 $newUser->setFirstName($user->getFirstName());
@@ -194,8 +200,7 @@ class UserService
                 $newUser->setPassword($user->getPassword());
                 $newUser->setPhone($user->getPhone());
 
-                if (!in_array($user->getUserStatus(),User::STASUS))
-                {
+                if (!in_array($user->getUserStatus(), User::STATUS)) {
                     return new Response('Invalid status', 405);
                 }
 
@@ -206,8 +211,7 @@ class UserService
             }
         }
 
-        if($in == $out)
-        {
+        if ($in == $out) {
             return new Response('Successful operation', 200);
 
         }
@@ -220,71 +224,44 @@ class UserService
      * @param array $loginData
      * @return bool
      */
-    public function loginUser($loginData){
+    public function loginUser($loginData)
+    {
 
-        $repository=$this->entityManager->getRepository(User::class);
-        $existingUser=$repository->findOneBy(array(
-            'username'=>$loginData['username'],
-            'password'=>$loginData['password']
-        ));
+        $repository = $this->entityManager->getRepository(User::class);
+        $existingUser = $repository->findOneBy(
+            [
+                'username' => $loginData['username'],
+                'password' => $loginData['password']
+            ]
+        );
 
-        $session=new Session();
-        if ($existingUser instanceof User){
-            $user=new User();
+        $session = new Session();
+        if ($existingUser instanceof User) {
+            $user = new User();
             $user->setUsername($existingUser->getUsername());
             $user->setPassword($existingUser->getPassword());
             $user->setIsLoggedIn(true);
 
-            $session->set('user',$user);
+            $session->set('user', $user);
 
             return true;
         }
 
-        $session->set('user',null);
+        $session->set('user', null);
 
         return false;
-
     }
 
     /**
      * @return bool
      */
-    public function logoutUser(){
+    public function logoutUser()
+    {
 
-        $session=new Session();
-        $session->set('user',null);
+        $session = new Session();
+        $session->set('user', null);
         return true;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

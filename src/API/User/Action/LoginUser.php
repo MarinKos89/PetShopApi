@@ -49,14 +49,13 @@ class LoginUser
             ]
         );
 
-        $response=$this->handler->handle($command);
-
-        if ($request){
+        $response = $this->handler->handle($command);
+//        var_dump($response);
+//        die();
+        if ($response){
             return new Response('Successful operation ',200);
         }
 
-
         return new Response("Invalid username/password ",400);
     }
-
 }

@@ -5,6 +5,7 @@ namespace App\API\Pet\Handler;
 
 use App\API\Pet\Command\InStoreUpdatePetCommand;
 use App\API\Pet\Service\PetService;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class InStoreUpdatePetHandler
@@ -27,15 +28,16 @@ class InStoreUpdatePetHandler
         $this->service = $service;
     }
 
+
     /**
-     * @return int
+     * @param InStoreUpdatePetCommand $updatePetCommand
+     * @param $petID
+     * @return Response
      */
-    public function handle(){
-        return $this->service->updatePet();
+    public function handle(InStoreUpdatePetCommand $updatePetCommand, $petID)
+    {
+        return $this->service->inStoreUpdatePet($updatePetCommand->toArray(), $petID);
     }
-
-
-
 
 
 }

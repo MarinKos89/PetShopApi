@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mkos8
- * Date: 27.4.2018.
- * Time: 15:20
- */
+
 
 namespace App\API\User\Handler;
 
