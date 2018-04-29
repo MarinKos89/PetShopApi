@@ -40,9 +40,9 @@ class ByUserNameGetUser
      * @param string $username
      * @return Response
      */
-    public function __invoke($username):Response
+    public function __invoke($username): Response
     {
-       return $this->handler->handle($username);
+        return $this->handler->handle($username);
     }
 
 }

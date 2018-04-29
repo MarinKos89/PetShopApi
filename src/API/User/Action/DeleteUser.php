@@ -47,7 +47,7 @@ class DeleteUser extends Controller
      * @param User $username
      * @return Response
      */
-    public function __invoke(Request $request,$username): Response
+    public function __invoke(Request $request, $username): Response
     {
         return $this->handler->handle($username);
 

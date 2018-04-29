@@ -106,7 +106,7 @@ class UserService
     {
 
         $repository = $this->entityManager->getRepository(User::class);
-        $existingUser = $repository->findOneBy(array('email' => $username));
+        $existingUser = $repository->findOneBy(array('username' => $username));
 
         if (!is_null($existingUser)) {
             $this->entityManager->remove($existingUser);
@@ -128,7 +128,7 @@ class UserService
     {
 
         $repository = $this->entityManager->getRepository(User::class);
-        $existingUser = $repository->findOneBy(array('email' => $username));
+        $existingUser = $repository->findOneBy(array('username' => $username));
 
         if (!is_null($existingUser)) {
 
@@ -162,14 +162,15 @@ class UserService
     {
 
         $repository = $this->entityManager->getRepository(User::class);
-        $existingUser = $repository->findOneBy(array('email' => $username));
+        $existingUser = $repository->findOneBy(array('username' => $username));
 
         if (!is_null($existingUser)) {
 
             return new Response($this->serializer->serialize(
                 $repository->find($existingUser),
                 'json'
-            ), 200
+            )
+
             );
 
         }

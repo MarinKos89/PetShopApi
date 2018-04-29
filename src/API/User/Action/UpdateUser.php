@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class UpdateUser
  * @package App\API\User\Action
- * @Route("/user/{username",name="update_user", methods={"PUT"})
+ * @Route("/user/{username}",name="update_user", methods={"PUT"})
  */
 class UpdateUser
 {

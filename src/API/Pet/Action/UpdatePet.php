@@ -34,7 +34,7 @@ class UpdatePet
 
     /**
      * @param Request $request
-     * @param Pet $petID
+     * @param int $petID
      * @return Response
      */
     public function __invoke(Request $request,$petID):Response

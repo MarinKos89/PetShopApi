@@ -5,7 +5,7 @@ namespace App\API\Pet\Handler;
 
 use App\API\Pet\Service\PetService;
 use App\API\Pet\Command\ToStoreAddPetCommand;
-
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -32,20 +32,21 @@ class ToStoreAddPetHandler
     /**
      * @return string
      */
-    public function handle(){
+    public function handle()
+    {
         return $this->service->selectPets();
     }
 
 
     /**
      * @param ToStoreAddPetCommand $petData
-     * @return int
+     * @return Response
      */
-    public function handlePet(ToStoreAddPetCommand $petData){
+    public function handlePet(ToStoreAddPetCommand $petData)
+    {
         return $this->service
             ->addPetToStore($petData->toArray());
     }
-
 
 
 }

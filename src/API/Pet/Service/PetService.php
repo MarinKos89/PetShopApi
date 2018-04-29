@@ -4,8 +4,6 @@ namespace App\API\Pet\Service;
 
 use App\API\Pet\Entity\Pet;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -37,31 +35,32 @@ class PetService
      */
     public function byIDFindPet(int $petID)
     {
-
         return $this->serializer->serialize(
             $this->entityManager
                 ->getRepository(Pet::class)
                 ->find($petID),
-            'json'
-        );
+            'json');
     }
 
 
     /**
-     * @param $pet
+     * @param $status
      * @return Response
      */
-    public function byStatusFindPet($pet)
+    public function byStatusFindPet($status)
     {
 
 
         $repository = $this->entityManager->getRepository(Pet::class);
-        $petStatus = $repository->findOneBy(array('status' => Pet::STATUS));
+        $pets = $repository->findOneBy(array('status' => $status));
 
-        if (!is_null($petStatus)) {
+        if (!is_null($pets)) {
+            if (!in_array($status['status'], Pet::STATUS)) {
+                return new Response('Invalid status ', 405);
+            }
 
             return new Response($this->serializer->serialize(
-                $repository->find($pet),
+                $repository->findAll(),
                 'json'
             ), 200
             );
@@ -109,11 +108,11 @@ class PetService
 
 
     /**
-     * @param array $id
-     * @param Pet $pet
+     * @param int $id
+     * @param array $pet
      * @return Response
      */
-    public function updatePet($id, $pet)
+    public function updatePet($pet, $id)
     {
 
         $repository = $this->entityManager->getRepository(Pet:: class);
@@ -148,7 +147,7 @@ class PetService
         $repository = $this->entityManager->getRepository(Pet::class);
         $pet = $repository->find($id);
 
-        if (!is_null($id)) {
+        if ($pet) {
             $this->entityManager->remove($pet);
             $this->entityManager->flush();
 

@@ -42,17 +42,16 @@ class ToStoreAddPet
      * @param Request $request
      * @return Response
      */
-    public function __invoke(Request $request):Response
+    public function __invoke(Request $request): Response
     {
-        $command=ToStoreAddPetCommand::deserialize(
-            (array) json_decode($request->getContent(false))
+        $command = ToStoreAddPetCommand::deserialize(
+            (array)json_decode($request->getContent(false))
         );
 
-        $success=$this->handler->handlePet($command);
+        $success = $this->handler->handlePet($command);
 
-        if ($success)
-        {
-            return new Response('Successful operation ' .$success,200);
+        if ($success) {
+            return new Response('Successful operation ' . $success, 200);
         }
 
         return new Response('Invalid input ', 400);

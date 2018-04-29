@@ -3,6 +3,7 @@
 
 namespace App\API\Store\Command;
 use Assert\Assert;
+use \Datetime;
 
 
 /**
@@ -60,6 +61,7 @@ class OrderAPetFromStoreCommand
         $this->status = $status;
         $this->complete = $complete;
     }
+
 
     /**
      * @return int
@@ -124,6 +126,7 @@ class OrderAPetFromStoreCommand
     {
         $this->shipDate = $shipDate;
     }
+
 
     /**
      * @return string

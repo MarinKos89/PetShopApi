@@ -6,7 +6,7 @@ namespace App\API\Pet\Action;
 use App\API\Pet\Command\ByStatusFindPetCommand;
 use App\API\Pet\Handler\ByStatusFindPetHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @package App\API\Pet\Action
  * @Route("/pet/findByStatus", name="pet_findByStatus", methods={"GET"})
  */
-class ByStatusFindPet
+class ByStatusFindPet extends Controller
 {
 
 
@@ -35,13 +35,19 @@ class ByStatusFindPet
 
 
     /**
-     * @param $status
-     * @return string
+     * @param Request $request
+     * @param string $petStatus
+     * @return Response
      */
-    public function __invoke($status): Response
+    public function __invoke(Request $request,$petStatus): Response
     {
 
-        return $this->handler->handle($status);
+//        $command = ByStatusFindPetCommand::deserialize(
+//            (array)json_decode($request->getContent(false))
+//        );
+//
+//        return $this->handler->handle($command);
+        Return new Response('will be implemented');
 
     }
 }

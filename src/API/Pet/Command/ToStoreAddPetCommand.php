@@ -29,7 +29,7 @@ class ToStoreAddPetCommand
     private $tags;
 
     /**
-     * @var int
+     * @var string
      */
     private $status;
 
@@ -39,9 +39,9 @@ class ToStoreAddPetCommand
      * @param string $name
      * @param string $photoUrls
      * @param int $tags
-     * @param int $status
+     * @param string $status
      */
-    public function __construct(int $category, string $name, string $photoUrls, int $tags, int $status)
+    public function __construct(int $category, string $name, string $photoUrls, int $tags, string $status)
     {
         $this->category = $category;
         $this->name = $name;
@@ -115,15 +115,15 @@ class ToStoreAddPetCommand
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getStatus(): int
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @param int $status
+     * @param string $status
      */
     public function setStatus(int $status): void
     {

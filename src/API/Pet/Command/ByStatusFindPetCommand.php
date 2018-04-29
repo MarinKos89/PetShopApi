@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mkos8
- * Date: 23.4.2018.
- * Time: 19:40
- */
+
 
 namespace App\API\Pet\Command;
 
@@ -20,31 +15,102 @@ class ByStatusFindPetCommand
 
 
     /**
-     * @var int
+     * @var int $id
      */
     private $id;
 
     /**
-     * @var string
+     * @var string $name
      */
     private $name;
 
     /**
-     * @var string
+     * @var string $status
      */
     private $status;
+
+
+    /**
+     * @var int $category
+     */
+    private $category;
+
+    /**
+     * @var string $photoUrls
+     */
+    private $photoUrls;
+
+    /**
+     * @var int $tags
+     */
+    private $tags;
 
     /**
      * ByStatusFindPetCommand constructor.
      * @param int $id
      * @param string $name
      * @param string $status
+     * @param int $category
+     * @param string $photoUrls
+     * @param int $tags
      */
-    public function __construct(int $id, string $name, string $status)
+    public function __construct(int $id, string $name, string $status, int $category, string $photoUrls, int $tags)
     {
         $this->id = $id;
         $this->name = $name;
         $this->status = $status;
+        $this->category = $category;
+        $this->photoUrls = $photoUrls;
+        $this->tags = $tags;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getCategory(): int
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param int $category
+     */
+    public function setCategory(int $category): void
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhotoUrls(): string
+    {
+        return $this->photoUrls;
+    }
+
+    /**
+     * @param string $photoUrls
+     */
+    public function setPhotoUrls(string $photoUrls): void
+    {
+        $this->photoUrls = $photoUrls;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTags(): int
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param int $tags
+     */
+    public function setTags(int $tags): void
+    {
+        $this->tags = $tags;
     }
 
     /**
@@ -102,9 +168,13 @@ class ByStatusFindPetCommand
     public function toArray(): array
     {
         return [
-            'petID' => $this->getId(),
+            'id' => $this->getId(),
+            'category' => $this->getCategory(),
             'name' => $this->getName(),
-            'status' => $this->getStatus()
+            'photoUrls' => $this->getPhotoUrls(),
+            'tags' => $this->getTags(),
+            'status' => $this->getStatus(),
+
         ];
     }
 
@@ -118,13 +188,19 @@ class ByStatusFindPetCommand
             ->that($byStatusFindPet, null)
             ->tryAll()
             ->keyExists('id', 'id is required')
+            ->keyExists('category', 'category is required')
             ->keyExists('name', 'name is required')
+            ->keyExists('photoUrls', 'photoUrls is required')
+            ->keyExists('tags', 'tags is required')
             ->keyExists('status', 'status is required')
             ->verifyNow();
 
         return new ByStatusFindPetCommand(
             $byStatusFindPet['id'],
+            $byStatusFindPet['category'],
             $byStatusFindPet['name'],
+            $byStatusFindPet['photoUrls'],
+            $byStatusFindPet['tags'],
             $byStatusFindPet['status']
         );
 

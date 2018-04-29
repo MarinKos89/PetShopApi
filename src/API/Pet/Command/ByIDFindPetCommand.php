@@ -49,6 +49,10 @@ class ByIDFindPetCommand
     }
 
 
+    /**
+     * @param int $petID
+     * @return ByIDFindPetCommand
+     */
     public static function deserialize(int $petID): ByIDFindPetCommand
     {
         return new ByIDFindPetCommand($petID);

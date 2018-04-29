@@ -33,12 +33,12 @@ class UpdatePetHandler
 
     /**
      * @param UpdatePetCommand $updatePetCommand
-     * @param Pet $id
+     * @param int $petID
      * @return Response
      */
-    public function handle(UpdatePetCommand $updatePetCommand, $id){
+    public function handle(UpdatePetCommand $updatePetCommand, $petID){
 
-        return $this->service->updatePet($updatePetCommand->toArray(),$id);
+        return $this->service->updatePet($updatePetCommand->toArray(),$petID);
     }
 
 

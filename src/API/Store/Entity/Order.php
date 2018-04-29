@@ -10,10 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Order
 {
-
-
     /**
-     * var int $id
+     * @var int $id
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,129 +19,108 @@ class Order
     private $id;
 
     /**
-     * var int $petID
+     * @var int $id
      * @ORM\Column(type="integer")
      */
     private $petID;
 
     /**
-     * var int $quantity
+     * @var int $quantity
      * @ORM\Column(type="integer")
      */
     private $quantity;
 
     /**
-     * var datetime $shipDate
-     * @ORM\Column(type="datetime")
+     * @var string $shipDate
+     * @ORM\Column(type="string", length=255)
      */
     private $shipDate;
 
     /**
-     * var int $status
-     * @ORM\Column(type="integer")
+     * @var string $status
+     * @ORM\Column(type="string", length=255)
      */
     private $status;
 
     /**
-     * var boolean $complete
-     * @ORM\Column(type="boolean" )
+     * @var bool $complete
+     * @ORM\Column(type="boolean")
      */
-    private $complete = false;
+    private $complete;
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPetID()
+
+
+    public function getPetID(): ?int
     {
         return $this->petID;
     }
 
-    /**
-     * @param mixed $petID
-     */
-    public function setPetID($petID): void
+    public function setPetID(int $petID): self
     {
         $this->petID = $petID;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQuantity()
+    public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    /**
-     * @param mixed $quantity
-     */
-    public function setQuantity($quantity): void
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getShipDate()
+    public function getShipDate(): ?string
     {
         return $this->shipDate;
     }
 
-    /**
-     * @param mixed $shipDate
-     */
-    public function setShipDate($shipDate): void
+    public function setShipDate(string $shipDate): self
     {
         $this->shipDate = $shipDate;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStatus()
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    /**
-     * @param mixed $status
-     */
-    public function setStatus($status): void
+    public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getComplete()
+    public function getComplete(): ?bool
     {
         return $this->complete;
     }
 
-    /**
-     * @param mixed $complete
-     */
-    public function setComplete($complete): void
+    public function setComplete(bool $complete): self
     {
         $this->complete = $complete;
+
+        return $this;
     }
 
 

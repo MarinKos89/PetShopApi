@@ -34,12 +34,12 @@ class DeletePet
 
     /**
      * @param Request $request
-     * @param Pet $id
+     * @param $petID
      * @return Response
      */
-    public function  __invoke(Request $request,$id):Response
+    public function __invoke(Request $request, $petID): Response
     {
-       return $this->handler->handle($id);
+        return $this->handler->handle($petID);
     }
 
 }

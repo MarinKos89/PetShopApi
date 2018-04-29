@@ -34,7 +34,7 @@ class ByIDFindPet extends Controller
 
     /**
      * @param int $petID
-     * @return JsonResponse
+     * @return Response
      */
     public function __invoke($petID): Response
     {
@@ -48,6 +48,6 @@ class ByIDFindPet extends Controller
             return new Response($pet);
         }
 
-        return new Response(501);
+        return new Response('Invalid input ', 400);
     }
 }

@@ -31,9 +31,10 @@ class DeletePetHandler
 
     /**
      * @param Pet $id
-     * @return Response
+     * @return mixed
      */
-    public function handle($id){
+    public function handle($id)
+    {
 
         return $this->service->deletePet($id);
     }

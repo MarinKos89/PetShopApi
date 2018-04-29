@@ -6,6 +6,10 @@ namespace App\API\Pet\Handler;
 use App\API\Pet\Command\ByIDFindPetCommand;
 use App\API\Pet\Service\PetService;
 
+/**
+ * Class ByIDFindPetHandler
+ * @package App\API\Pet\Handler
+ */
 class ByIDFindPetHandler
 {
     /**

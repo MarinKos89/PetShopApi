@@ -49,8 +49,8 @@ class Pet
     private $tags;
 
     /**
-     * @var int $status
-     * @ORM\Column(type="integer")
+     * @var string $status
+     * @ORM\Column(type="string")
      * @OneToOne(targetEntity="status_pet")
      * @JoinColumn(name="status_pet_id", referencedColumnName="id")
      */
@@ -137,17 +137,17 @@ class Pet
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getStatus(): int
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @param int $status
+     * @param string $status
      */
-    public function setStatus(int $status): void
+    public function setStatus(string $status): void
     {
         $this->status = $status;
     }

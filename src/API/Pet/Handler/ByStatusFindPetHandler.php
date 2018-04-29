@@ -8,7 +8,9 @@
 
 namespace App\API\Pet\Handler;
 
+use App\API\Pet\Command\ByStatusFindPetCommand;
 use App\API\Pet\Service\PetService;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ByStatusFindPetHandler
@@ -34,14 +36,14 @@ class ByStatusFindPetHandler
 
 
     /**
-     * @param $status
-     * @return string
+     * @param ByStatusFindPetCommand $command
+     * @return Response
      */
-    public function handle($status)
+    public function handle(ByStatusFindPetCommand $command)
     {
 
 
-        return $this->service->byStatusFindPet($status);
+        return $this->service->byStatusFindPet($command->toArray());
 
     }
 

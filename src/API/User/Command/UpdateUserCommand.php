@@ -9,6 +9,8 @@
 namespace App\API\User\Command;
 
 
+use Assert\Assert;
+
 class UpdateUserCommand
 {
 
