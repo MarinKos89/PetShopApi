@@ -24,6 +24,6 @@ class ImageUploadPet
      */
     public function __invoke():JsonResponse
     {
-        return  new JsonResponse("upload a image");
+        return  new JsonResponse("Will be implemented");
     }
 }

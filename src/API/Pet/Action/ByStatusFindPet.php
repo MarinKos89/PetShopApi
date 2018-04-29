@@ -42,12 +42,12 @@ class ByStatusFindPet extends Controller
     public function __invoke(Request $request,$petStatus): Response
     {
 
-//        $command = ByStatusFindPetCommand::deserialize(
-//            (array)json_decode($request->getContent(false))
-//        );
-//
-//        return $this->handler->handle($command);
-        Return new Response('will be implemented');
+        $command = ByStatusFindPetCommand::deserialize(
+            (array)json_decode($request->getContent(false))
+        );
+
+        return $this->handler->handle($command);
+
 
     }
 }

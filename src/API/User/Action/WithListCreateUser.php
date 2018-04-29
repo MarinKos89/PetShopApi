@@ -48,7 +48,7 @@ class WithListCreateUser
             (array) json_decode($request->getContent(false))
         );
 
-        $success = $this->handler->handleCreateUser($command);
+        $success = $this->handler->handle($command);
         if ($success)
         {
             return new Response('successful operation, user id added: ' .$success,
