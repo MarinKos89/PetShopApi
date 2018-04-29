@@ -56,6 +56,7 @@ class StoreService
         $store->setPetID($order['petID']);
         $store->setQuantity($order['quantity']);
         $store->setShipDate($order['shipDate']);
+        $store->setStatus($order['status']);
         $store->setComplete($order['complete']);
 
         $this->entityManager->persist($store);

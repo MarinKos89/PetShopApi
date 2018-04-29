@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class DeletePet
  * @package App\API\Pet\Action
- * @Route("/pet/{petID", name="delete_pet",methods={"DELETE"})
+ * @Route("/pet/{petID}", name="delete_pet",methods={"DELETE"})
  */
 class DeletePet
 {

@@ -3,7 +3,7 @@
 
 namespace App\API\Store\Command;
 use Assert\Assert;
-use Symfony\Component\Validator\Constraints\DateTime;
+
 
 /**
  * Class OrderAPetFromStoreCommand
@@ -28,12 +28,12 @@ class OrderAPetFromStoreCommand
     private $quantity;
 
     /**
-     * @var dateTime $shipDate
+     * @var string $shipDate
      */
     private $shipDate;
 
     /**
-     * @var int $status
+     * @var string $status
      */
     private $status;
 
@@ -47,11 +47,11 @@ class OrderAPetFromStoreCommand
      * @param int $id
      * @param int $petID
      * @param int $quantity
-     * @param dateTime $shipDate
-     * @param int $status
+     * @param string $shipDate
+     * @param string $status
      * @param bool $complete
      */
-    public function __construct(int $id, int $petID, int $quantity, dateTime $shipDate, int $status, bool $complete)
+    public function __construct(int $id, int $petID, int $quantity, string $shipDate, string $status, bool $complete)
     {
         $this->id = $id;
         $this->petID = $petID;
@@ -110,33 +110,33 @@ class OrderAPetFromStoreCommand
     }
 
     /**
-     * @return dateTime
+     * @return string
      */
-    public function getShipDate(): dateTime
+    public function getShipDate(): string
     {
         return $this->shipDate;
     }
 
     /**
-     * @param dateTime $shipDate
+     * @param string $shipDate
      */
-    public function setShipDate(dateTime $shipDate): void
+    public function setShipDate(string $shipDate): void
     {
         $this->shipDate = $shipDate;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getStatus(): int
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @param int $status
+     * @param string $status
      */
-    public function setStatus(int $status): void
+    public function setStatus(string $status): void
     {
         $this->status = $status;
     }
