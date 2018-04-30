@@ -1,0 +1,29 @@
+#index:
+#    path: /
+#    controller: App\API\HomeController::homepage
+
+
+login_user:
+    path: /user/login
+    controller: App\API\User\Action\LoginUser
+
+logout_user:
+    path: /user/logout
+    controller: App\API\User\Action\LogoutUser
+
+select_user:
+    path: /user/{username}
+    controller: App\API\User\Action\ByUsernameGetUser
+
+get_user:
+    path: /user/{username}
+    controller: App\API\User\Action\ByUsernameGetUser
+
+petID:
+    path: pet/{petID}
+    controller: App\API\Pet\Action\ByIDFindPet
+
+pet_findByStatus:
+    path: /pet/findByStatus
+    controller: App\API\Pet\Action\ByStatusFindPet
+
